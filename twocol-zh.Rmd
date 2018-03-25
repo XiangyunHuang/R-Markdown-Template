@@ -45,18 +45,22 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 # font_install(source_han_serif("CN")) # 思源宋体
 # font_install(source_han_sans("CN"))  # 思源黑体
 library(ggplot2)
-ggplot(iris, aes(Sepal.Length, Sepal.Width)) + 
-      geom_point(aes(colour = Species)) +
-      scale_colour_brewer(palette = "Set1") +
-      labs(title = '鸢尾花数据的散点图',
-           x ='萼片长度', y = '萼片宽度', colour = '鸢尾花类别') +
-      theme( title = element_text(family="source-han-serif-cn", face ="bold"), 
-             axis.title = element_text(family="source-han-serif-cn", face = "italic"),
-             legend.title = element_text(family="source-han-sans-cn", face ="plain"),
-             axis.ticks=element_line(colour="black"),
-             panel.grid.major=element_blank(),
-             panel.grid.minor=element_blank(),
-             panel.background=element_blank(),
-             axis.line=element_line(size=0.2))
+ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
+  geom_point(aes(colour = Species)) +
+  scale_colour_brewer(palette = "Set1") +
+  labs(
+    title = "鸢尾花数据的散点图",
+    x = "萼片长度", y = "萼片宽度", colour = "鸢尾花类别"
+  ) +
+  theme(
+    title = element_text(family = "source-han-serif-cn", face = "bold"),
+    axis.title = element_text(family = "source-han-serif-cn", face = "italic"),
+    legend.title = element_text(family = "source-han-sans-cn", face = "plain"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    axis.line = element_line(size = 0.2)
+  )
 ```
 
