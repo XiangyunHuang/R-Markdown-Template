@@ -1,0 +1,62 @@
+---
+title: "双栏排版用于学术文章"
+author: "黄湘云"
+date: "`r Sys.Date()`"
+documentclass: proc
+output: 
+  pdf_document: 
+    extra_dependencies:
+      ctex: UTF8
+    latex_engine: xelatex
+    number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# aaa
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+par(family= "serif") # Times Roman
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r, fig.showtext=TRUE}
+# library(showtext)
+# Install Source Han Sans font (by default Simplified Chinese)
+# font_install(source_han_serif("CN")) # 思源宋体
+# font_install(source_han_sans("CN"))  # 思源黑体
+library(ggplot2)
+ggplot(iris, aes(Sepal.Length, Sepal.Width)) + 
+      geom_point(aes(colour = Species)) +
+      scale_colour_brewer(palette = "Set1") +
+      labs(title = '鸢尾花数据的散点图',
+           x ='萼片长度', y = '萼片宽度', colour = '鸢尾花类别') +
+      theme( title = element_text(family="source-han-serif-cn", face ="bold"), 
+             axis.title = element_text(family="source-han-serif-cn", face = "italic"),
+             legend.title = element_text(family="source-han-sans-cn", face ="plain"),
+             axis.ticks=element_line(colour="black"),
+             panel.grid.major=element_blank(),
+             panel.grid.minor=element_blank(),
+             panel.background=element_blank(),
+             axis.line=element_line(size=0.2))
+```
+
