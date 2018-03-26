@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "容器化 R Markdown"
 documentclass: report
 output: 
   pdf_document: 
@@ -8,6 +8,20 @@ output:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
+liftr:
+  maintainer: "Xiangyun Huang"
+  email: "xiangyunfaith@outlook.com"
+  from: "rocker/geospatial:latest"
+  pandoc: false
+  texlive: false
+  sysdeps:
+    - gfortran
+  cran:
+    - glmnet
+  bioc:
+    - Gviz
+  remotes:
+    - "road2stat/liftr"
 ---
 
 ```{r setup, include=FALSE}
