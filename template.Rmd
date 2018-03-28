@@ -1,21 +1,34 @@
 ---
-title: "容器化 R Markdown"
-documentclass: report
+title: "Untitled"
+author: "黄湘云"
+date: "`r Sys.Date()`"
 output: 
   pdf_document: 
     extra_dependencies:
-      sourceserifpro: default
       ctex: UTF8
+      sourcecodepro: scale = 0.85
+      sourceserifpro: default
+    fig_caption: yes
     latex_engine: xelatex
     number_sections: yes
-    toc: yes
+classoptions: "hyperref,12pt,a4paper"    
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  echo = TRUE,
+  # cache = TRUE,
+  out.width = "70%",
+  fig.align = 'center',
+  fig.width = 6,
+  fig.asp = 0.618,  # 1 / phi
+  fig.show = "hold"
+)
 ```
 
-# $\Xi$ 分布
+# 缘起
 
 ## R Markdown
 
