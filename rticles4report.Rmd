@@ -1,0 +1,93 @@
+---
+title: "空间广义线性模型"
+subtitle: "代码实现"
+author: "黄湘云"
+date: "2018年3月"
+geometry: margin=1.18in
+fontsize: 12pt
+linestretch: 1.5
+links-as-notes: yes
+documentclass: ctexart
+output:
+  rticles::ctex:
+    fig_caption: yes
+    number_sections: yes
+    citation_package: natbib
+    toc: yes
+    toc_depth: 4
+bibliography: refer.bib
+biblio-style: apalike
+biblio-title: 参考文献
+link-citations: yes
+colorlinks: yes
+classoption: "hyperref,a4paper,oneside,"
+---
+
+# 模型形式
+
+## 贝叶斯框架
+
+分层多水平模型
+
+### 泊松
+
+### 二项
+
+# 程序实现
+
+## PrevMap 包
+
+[@PrevMap2017JSS] 将 MCML 和 MCMC 方法应用于空间广义线性混合效应模型的参数估计和预测，
+
+## geoR 与 geoRglm 包
+
+## Stan 框架
+
+[Stan](http://mc-stan.org/) 是一种概率编程语言[@Stan2017JSS]，可以替代 BUGS ( **B**ayesian inference **U**sing **G**ibbs **S**ampling ) [@BUGS] 作为 MCMC 的高效实现，可用于贝叶斯框架下，标准地统计模型的参数估计，Stan 提供多种语言的接口实现，方便起见，本文采用它提供的 R 语言接口 -- rstan 包 [@RStan]。  　 
+
+```{r}
+suppressPackageStartupMessages(library(rstan))
+```
+
+## PyMC 框架
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## CUDA 框架
+
+基于 GPU 加速是一个不错的选择， Stan 开发者也把 GPU 加速列入开发日程。scikit-cuda [@scikitcuda2015] ArrayFire [@ArrayFire2015] 等基于 CUDA 开发的通用加速框架获得越来越多的关注。
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## R 进程信息
+
+```{r}
+sessionInfo()
+```
+
+
+# 算法细节
+
+主要基于 Stan 框架实现
+
+```r
+library(rstan)
+```
+
+## 两个证明
+
+渐进正态性和相合性
+
+## 符号约定 
+
+斜体用于扩展包和框架，如 *knitr*、*PrevMap*、*CUDA*、*Stan* 等，粗体用于软件，如 **R**、**Python** 等，等宽体用于代码和代码块。

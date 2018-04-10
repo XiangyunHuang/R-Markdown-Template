@@ -1,0 +1,108 @@
+---
+title: "空间广义线性混合效应模型(SGLMM)及其应用"
+subtitle: "2018届硕士学位论文预答辩"
+author: "学生：黄湘云 \\and 导师：李再兴"
+institute: "理学院 \\and 计算数学与统计系 \\and 中国矿业大学（北京）理学院 "
+date: "\\today"
+fontsize: 11pt
+output: 
+  beamer_presentation: 
+    citation_package: natbib
+    theme: metropolis
+    fonttheme: structurebold
+    colortheme: seahorse
+    fig_caption: yes
+    incremental: no
+    keep_tex: no
+    latex_engine: xelatex
+    slide_level: 2
+    toc: no
+section-titles: true
+header-includes:
+    - \usepackage[fontset = fandol]{ctex}
+    - # \usepackage[default]{sourcesanspro}
+    - # \usepackage[scale=.9]{sourcecodepro}
+keywords: "MCML,MCMC,SGLMM,INLA,Stan"    
+bibliography: refer.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+linkcolor: ForestGreen
+classoption: "dvipsnames,UTF8"
+---
+
+```{r setup, include=FALSE}
+options(digits = 3)
+knitr::opts_chunk$set(
+  comment = "#>",
+  echo = FALSE,
+  collapse = TRUE,
+  out.width = "70%",
+  fig.align = 'center',
+  fig.asp = 0.618,  # 1 / phi
+  fig.show = "hold"
+)
+```
+
+## 进度概况
+
+* 已完成
+    + 基于 R 语言实现 MCMC 和 MCML 算法
+    + 基于 Stan 框架实现 MCMC 算法
+    + 二项分布模拟和 Loaloa 数据集的分析
+    + 基于 bookdown 的论文模板（再见，Word、LaTeX 论文模板）
+* 未完成
+    + 泊松分布模拟和 Rongle 数据集的分析
+    + 冈比亚疟疾流行度分析（二项分布）
+    + 排版（使劲地造字吧）
+
+## 创新点
+
+1. 基于 Stan 实现空间广义线性混合效应模型的统计推断及应用
+2. 比较 R 和 Stan 实现 MCMC 的算法性能
+3. 基于 INLA 实现上述模型的统计推断及应用（看进度）
+
+目标：SGLMM 模型在统计推断方面的最佳工程实现
+
+- 高效 more effective（更好的准确度）
+- 高可扩展 more scalabe（更大的样本量）
+- 高速 more efficient（CPU、GPU 集群加速）
+
+> 想法：Prophet 框架^[同样基于 Stan]：Forecasting at Scale
+
+
+## 模型假设
+
+**Multiple prevalence surveys** 
+
+Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
+$$Y_{i}\sim \mathrm{Bin}(n_{i},p_{i})$$
+**Extra-binomial variation**
+
+Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
+$$Y_{i}|d_{i},U_{i}\sim \mathrm{Bin}(n_{i},p_{i}) \quad 
+\log[p_{i}/(1-p_{i})]=d_{i}'\beta+U_{i} \quad U_{i} \sim N(0,\tau^2)$$
+
+## notations: Spatial Generalized Linear Mixed Models (SGLMM)
+
+1. Latent spatially correlated process 
+  - Stationary Gaussian Process: $S(x) \sim \mathrm{SGP}\{0,\sigma^2,\rho(u)\}$ 
+  - correlation function: e.g. $\rho(u)=\exp(-|u|/\phi)$ 
+2. Linear prediction (regression model)
+  - $d(x)=$ covariates at location $x$
+  - Linear prediction: $\eta(x)=d(x)'\beta + S(x)$ 
+  - Link function: logit $p(x)=\log\{\eta(x)/[1-\eta(x)]\}$ 
+3. Conditional distribution for positive proportion $Y_{i}/n_{i}$
+  - $Y_{i}|S(\cdot) \sim \mathrm{Bin}(n_{i},p(x_{i}))$ (binomial sampling)
+
+## 模拟实验之低秩近似与 MCML 方法
+
+```{r simulation, out.width = '.8\\textwidth' }
+knitr::include_graphics(path = 'figures/simulation.pdf')
+```
+
+## 致谢
+
+1. 感谢谢益辉开发和维护的 rmarkdown [@R-rmarkdown] 、blogdown [@blogdown2017CRC]、 bookdown [@bookdown2016CRC] 和 tinytex [@R-tinytex] 及在我开发论文模板过程中给予的诸多解答和功能要求。
+2. 感谢 John MacFarlane 开发的 Pandoc 软件及 pandoc 模板，使得论文模板的维护和开发变得容易。
+3. 感谢李再兴教授的指导，尤其体现在《Model-based Geostatistics》一书的模型理论学习
