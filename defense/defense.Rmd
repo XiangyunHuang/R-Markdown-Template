@@ -1,0 +1,163 @@
+---
+title: "空间广义线性混合效应模型及其应用"
+subtitle: "Spatial Generalized Linear Mixed Models with Its Applications"
+short-title: "空间广义线性混合效应模型"
+author: "导师：李再兴 \\and 学生：黄湘云"
+short-author: "李再兴 \\and 黄湘云"
+date: '2015级硕士学位论文答辩'      # Month DD, YYYY (Main Slide)
+short-date: '`r format(Sys.Date(), "%m/%d/%Y")`' # MM/DD/YYYY (Lower Right)
+institute: "中国矿业大学（北京）理学院"
+short-institute: "CUMTB"
+department: "计算数学与统计系"                # Institute must be defined
+license: "MIT"
+section-titles: false                            # Provides slide headings
+safe-columns: true                               # Enables special latex macros for columns.
+output: 
+   uiucthemes::beamer_illinois:
+     latex_engine: xelatex
+     citation_package: natbib
+     toc: yes
+header-includes:
+   - \usepackage{ctex}
+bibliography: refer.bib
+biblio-style: apalike
+biblio-title: 参考文献
+link-citations: yes
+colorlinks: yes
+---
+
+
+```{r setup, include=FALSE}
+options(digits = 3)
+knitr::opts_chunk$set(
+  comment = "#>",
+  echo = FALSE,
+  collapse = TRUE,
+  out.width = "70%",
+  fig.align = 'center',
+  fig.asp = 0.618,  # 1 / phi
+  fig.show = "hold"
+)
+```
+
+# 引言
+
+### 研究背景
+
+### 我做了什么
+
+### 有什么意义
+
+### 怎么做的
+
+This is an R Markdown presentation [@bookdown2016CRC]. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+
+### 模型假设
+
+**Multiple prevalence surveys** 
+
+Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
+$$Y_{i}\sim \mathrm{Bin}(n_{i},p_{i})$$
+**Extra-binomial variation**
+
+Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
+$$Y_{i}|d_{i},U_{i}\sim \mathrm{Bin}(n_{i},p_{i}) \quad 
+\log[p_{i}/(1-p_{i})]=d_{i}'\beta+U_{i} \quad U_{i} \sim N(0,\tau^2)$$
+
+### notations: Spatial Generalized Linear Mixed Models (SGLMM)
+
+1. Latent spatially correlated process 
+  - Stationary Gaussian Process: $S(x) \sim \mathrm{SGP}\{0,\sigma^2,\rho(u)\}$ 
+  - correlation function: e.g. $\rho(u)=\exp(-|u|/\phi)$ 
+2. Linear prediction (regression model)
+  - $d(x)=$ covariates at location $x$
+  - Linear prediction: $\eta(x)=d(x)'\beta + S(x)$ 
+  - Link function: logit $p(x)=\log\{\eta(x)/[1-\eta(x)]\}$ 
+3. Conditional distribution for positive proportion $Y_{i}/n_{i}$
+  - $Y_{i}|S(\cdot) \sim \mathrm{Bin}(n_{i},p(x_{i}))$ (binomial sampling)
+
+### 模拟实验
+
+```{r simulation,fig.cap='精确方法与近似方法比较', out.width = '.6\\textwidth' }
+knitr::include_graphics(path = 'figures/simulation.pdf')
+```
+
+### 还能怎么做
+
+```{r pressure}
+plot(pressure)
+```
+
+# Section title     
+## Subsection title 
+
+### Spatial data in R
+
+- 动态文档 [@xie2015Dynamic;@bookdown2016CRC] 和 [@blogdown2017CRC]
+- 统计图形 [@ggplot2016Springer]
+- 空间统计 [@Venables2002Modern] 和 [@Bivand2013Applied]
+
+*Edzer Pebesma* : useR! international R User conference
+
+1. [Spatial data in R: simple features and future perspectives (2016)](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Spatial-data-in-R-simple-features-and-future-perspectives) 
+2. [Spatial data in R: new directions (2017)](https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Spatial-data-in-R-new-directions)
+3. [Spatial data in R: new directions II (2017)](https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Spatial-data-in-R-new-directions-II) 
+
+- UseR! tutorial <https://edzer.github.io/UseR2017/>
+
+### \LaTeX
+
+\begin{exampleblock}{Binomial Theorem}
+\begin{equation} 
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  \label{eq:binom}
+\end{equation} 
+\end{exampleblock}
+
+Hello Equation \ref{eq:binom}
+
+#### Title for block box
+
+**Unordered List**
+
+- [University of Illinois at Urbana-Champaign (UIUC)](http://illinois.edu)
+- [Department of Statistics](http://www.stat.illinois.edu/)
+- [Illinois Informatics Institute](http://www.informatics.illinois.edu/) 
+
+
+### Redux \LaTeX 
+
+This theme supports special LaTeX macros `\beingcols` and `\endcols` that allows
+for markdown to be blended with LaTeX without triggering the [`raw_tex`](http://pandoc.org/MANUAL.html#raw-tex) 
+extension. To enable this feature, the `safe-columns` key in the YML head matter
+must be set equal to `true`.
+
+\begincols
+
+\column{.49\linewidth}
+
+- _Hello!_
+
+\column{.49\linewidth}
+
+1. **Goodbye!**
+
+\endcols
+
+## Code Example
+
+### Code Embedding
+
+```{r}
+# Embedding code
+x = 2
+y = 3
+
+x + y
+```
+
+Inline R code refering to variable in previous code chunk:
+
+`r x`
+
