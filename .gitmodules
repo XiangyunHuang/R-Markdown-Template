@@ -1,3 +1,6 @@
 [submodule "collection/china-r-conference"]
 	path = collection/china-r-conference
 	url = git://github.com/XiangyunHuang/china-r-conference.git
+[submodule "collection/pgfornament-han"]
+	path = collection/pgfornament-han
+	url = git://github.com/liantze/pgfornament-han.git
