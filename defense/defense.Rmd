@@ -9,7 +9,7 @@ short-date: '`r format(Sys.Date(), "%m/%d/%Y")`' # MM/DD/YYYY (Lower Right)
 institute: "中国矿业大学（北京）理学院"
 short-institute: "CUMTB"
 department: "计算数学与统计系"                # Institute must be defined
-license: "MIT"
+license: "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
 section-titles: false                            # Provides slide headings
 safe-columns: true                               # Enables special latex macros for columns.
 output: 
