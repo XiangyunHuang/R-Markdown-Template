@@ -38,9 +38,7 @@ plot(iris[,-5], col = iris[,5], pch = 16)
 - Count sheep
 
 
----
-
-谁来给我一个漂亮的模板 my-styles.pptx
+## 壮士！我要模板
 
 ```yaml
 ---
@@ -50,6 +48,34 @@ output:
     reference_doc: my-styles.pptx
 ---
 ```
+
+## Python 块
+
+```{python math-matplotlib, eval = FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+plt.switch_backend('agg') # Very Important in R Markdown
+t = np.arange(0.0, 2.0, 0.01)
+s = np.sin(2*np.pi*t)
+
+plt.plot(t,s)
+plt.title(r'$\alpha_i > \beta_i$', fontsize=20)
+plt.text(1, -0.6, r'$\sum_{i=0}^\infty x_i$', fontsize=20)
+plt.text(0.6, 0.6, r'$\mathcal{A}\mathrm{sin}(2 \omega t)$',
+         fontsize=20)
+plt.xlabel('time (s)')
+plt.ylabel('volts (mV)')
+plt.show()
+# plt.savefig('math-in-plot.png', bbox_inches='tight', dpi = 300)
+# plt.savefig('math-in-plot.pdf', bbox_inches='tight')
+```
+
+## matplotlib
+
+```{python demo-matplotlib, ref.label = 'math-matplotlib', fig.cap = "数学公式", eval = TRUE}
+```
+
+
 
 ## 软件信息 {.allowframebreaks}
 
