@@ -1,10 +1,11 @@
 ---
-title: "Habits"
-author: John Doe
-date: March 22, 2005
+title: "PowerPoint 模板"
+author: Xiangyun Huang
+date: "`r format(Sys.time(), tz = 'Asia/Taipei', usetz = TRUE)`"
 output: 
   powerpoint_presentation:
     toc: yes
+	slide_level: 2
 ---
 
 # In the morning
@@ -28,7 +29,7 @@ output:
 
 ---
 
-```{r, cars, fig.cap="A scatterplot.", echo=FALSE}
+```{r cars, fig.cap="散点图", echo=FALSE}
 plot(cars)
 ```
 
@@ -36,3 +37,25 @@ plot(cars)
 
 - Get in bed
 - Count sheep
+
+
+---
+
+谁来给我一个漂亮的模板 my-styles.pptx
+
+```yaml
+---
+title: "Habits"
+output:
+  powerpoint_presentation:
+    reference_doc: my-styles.pptx
+---
+```
+
+## 软件信息 {.allowframebreaks}
+
+```{r}
+devtools::session_info("rmarkdown")
+```
+
+
