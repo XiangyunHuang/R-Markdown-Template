@@ -1,6 +1,6 @@
 ---
 title: "PowerPoint 模板"
-author: "Xiangyun Huang"
+author: "黄湘云"
 date: "`r format(Sys.time(), tz = 'Asia/Taipei', usetz = TRUE)`"
 output: 
   powerpoint_presentation:
@@ -28,8 +28,8 @@ output:
 
 ---
 
-```{r cars, fig.cap="散点图", echo=FALSE}
-plot(cars)
+```{r iris, fig.cap="散点图", echo=FALSE}
+plot(iris[,-5], col = iris[,5], pch = 16)
 ```
 
 ## Going to sleep
