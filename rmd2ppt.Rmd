@@ -1,11 +1,10 @@
 ---
 title: "PowerPoint 模板"
-author: Xiangyun Huang
+author: "Xiangyun Huang"
 date: "`r format(Sys.time(), tz = 'Asia/Taipei', usetz = TRUE)`"
 output: 
   powerpoint_presentation:
     toc: yes
-	slide_level: 2
 ---
 
 # In the morning
