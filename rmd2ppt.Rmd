@@ -51,7 +51,7 @@ output:
 
 ## Python 块
 
-```{python math-matplotlib, eval = FALSE}
+```{python math, eval = FALSE}
 import numpy as np
 import matplotlib.pyplot as plt
 plt.switch_backend('agg') # Very Important in R Markdown
@@ -70,9 +70,9 @@ plt.show()
 # plt.savefig('math-in-plot.pdf', bbox_inches='tight')
 ```
 
-## matplotlib
+## matplotlib 绘图
 
-```{python demo-matplotlib, ref.label = 'math-matplotlib', fig.cap = "数学公式", eval = TRUE}
+```{python demo-matplotlib, ref.label = 'math', fig.cap = "数学公式", eval = TRUE, echo = FALSE}
 ```
 
 
