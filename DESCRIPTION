@@ -1,0 +1,24 @@
+Package: templates4rmd
+Title: Template for R Markdown
+Version: 0.0.1
+Authors@R: c(
+  person("Xiangyun", "Huang", , "xiangyunfaith@outlook.com", c("aut", "cre"))
+  )
+Maintainer: Xiangyun Huang <xiangyunfaith@outlook.com>
+Description: Chinese R Markdown templates
+BugReports: https://github.com/XiangyunHuang/R-Markdown-Template/issues
+License: MIT + file LICENSE
+URL: https://github.com/XiangyunHuang/R-Markdown-Template
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    rmarkdown,
+    knitr,
+    rticles
+Remotes: tidyverse/ggplot2,
+    leonawicz/mapmate,
+    dgrtwo/gganimate
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1.9000
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8

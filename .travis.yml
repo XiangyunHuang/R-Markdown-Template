@@ -1,0 +1,40 @@
+language: r
+r:
+  - 3.5.0
+dist: trusty
+sudo: false
+cache:
+  packages: true
+  directories:
+    - $HOME/texlive
+
+branches:
+  only:
+    - master
+    
+pandoc_version: 2.1.3
+
+addons:
+  apt:
+    sources:
+      - sourceline: ppa:jonathonf/python-2.7
+    packages:
+      - ghostscript
+      - imagemagick
+      - optipng
+      - python2.7
+      - python-tk
+
+before_install:
+  - sudo -H pip install numpy matplotlib # scipy bokeh colorcet
+
+script:
+  - Rscript -e 'rmarkdown::render("rmd2ppt.Rmd", output_format = "powerpoint_presentation", output_dir = "docs")'
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
+  local_dir: docs
