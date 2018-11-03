@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="443.27mm" height="176.12mm" version="1.1" viewBox="0 0 443.27 176.12" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <defs>
+  <marker id="marker5763" overflow="visible" orient="auto">
+   <path transform="matrix(-.4 0 0 -.4 -4 0)" d="m0 0 5-5-17.5 5 17.5 5z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+  <marker id="marker5366" overflow="visible" orient="auto">
+   <path transform="matrix(-.4 0 0 -.4 -4 0)" d="m0 0 5-5-17.5 5 17.5 5z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+  <marker id="Arrow1Mend" overflow="visible" orient="auto">
+   <path transform="matrix(-.4 0 0 -.4 -4 0)" d="m0 0 5-5-17.5 5 17.5 5z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+  <marker id="marker5366-4" overflow="visible" orient="auto">
+   <path transform="matrix(-.4 0 0 -.4 -4 0)" d="m0 0 5-5-17.5 5 17.5 5z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(0 -120.88)">
+  <g transform="translate(-101.67 16.588)">
+   <g fill="#000000" letter-spacing="0px" word-spacing="0px">
+    <text x="101.083" y="208.08632" font-family="sans-serif" font-size="35.278px" stroke-width=".66929" style="line-height:1.25" xml:space="preserve"><tspan x="101.083" y="208.08632" font-family="'Times New Roman'" font-size="35.278px" stroke-width=".66929">P(A|B)=</tspan></text>
+    <text x="227.23874" y="208.08632" font-family="sans-serif" font-size="35.278px" stroke-width=".82594" style="line-height:1.25" xml:space="preserve"><tspan x="227.23874" y="208.08632" font-family="'Times New Roman'" font-size="35.278px" stroke-width=".82594">P(B|A)P(A)/P(B)</tspan></text>
+    <g font-family="'Times New Roman'" stroke-width=".26458">
+     <g font-size="10.583px">
+      <text x="106.58929" y="123.8869" style="line-height:1.25" xml:space="preserve"><tspan x="106.58929" y="123.8869" font-size="28.222px" stroke-width=".26458">Posterior</tspan></text>
+      <text x="109.6131" y="279.99106" style="line-height:1.25" xml:space="preserve"><tspan x="109.6131" y="279.99106" font-size="28.222px" stroke-width=".26458">Likelihood</tspan></text>
+      <text x="342.44647" y="124.64285" style="line-height:1.25" xml:space="preserve"><tspan x="342.44647" y="124.64285" font-size="28.222px" stroke-width=".26458">Prior</tspan></text>
+     </g>
+     <text x="320.52377" y="274.32144" font-size="28.222px" style="line-height:1.25" xml:space="preserve"><tspan x="320.52377" y="274.32144" stroke-width=".26458">Marginal likelihood</tspan></text>
+    </g>
+   </g>
+   <g fill="none" stroke="#000">
+    <path d="m247.2 269.03h36.966c0.79375 0 1.5875-0.79375 1.5875-1.5875v-40.746" marker-end="url(#Arrow1Mend)"/>
+    <path d="m161.4 130.69v41.199" marker-end="url(#marker5366)"/>
+    <path d="m370.42 130.69v41.199" marker-end="url(#marker5366-4)"/>
+    <path d="m447.52 244.46v-23.057" marker-end="url(#marker5763)"/>
+   </g>
+  </g>
+ </g>
+</svg>

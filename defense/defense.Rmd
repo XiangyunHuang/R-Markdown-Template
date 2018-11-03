@@ -1,24 +1,25 @@
 ---
 title: "空间广义线性混合效应模型及其应用"
 subtitle: "Spatial Generalized Linear Mixed Models with Its Applications"
-short-title: "空间广义线性混合效应模型"
-author: "导师：李再兴 \\and 学生：黄湘云"
+short-title: "空间广义线性混合效应模型及其应用"
+author: "指导老师：李再兴 \\and 答辩学生：黄湘云"
 short-author: "李再兴 \\and 黄湘云"
 date: '2015级硕士学位论文答辩'      # Month DD, YYYY (Main Slide)
 short-date: '`r format(Sys.Date(), "%m/%d/%Y")`' # MM/DD/YYYY (Lower Right)
 institute: "中国矿业大学（北京）理学院"
 short-institute: "CUMTB"
 department: "计算数学与统计系"                # Institute must be defined
-license: "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
-section-titles: false                            # Provides slide headings
-safe-columns: true                               # Enables special latex macros for columns.
+#license: "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
+section-titles: false                 # Provides slide headings
+safe-columns: true                    # Enables special latex macros for columns.
 output: 
    uiucthemes::beamer_illinois:
      latex_engine: xelatex
      citation_package: natbib
-     toc: yes
+     toc: no
 header-includes:
    - \usepackage{ctex}
+   - \usepackage{subfig}
 bibliography: refer.bib
 biblio-style: apalike
 biblio-title: 参考文献
@@ -40,124 +41,176 @@ knitr::opts_chunk$set(
 )
 ```
 
-# 引言
+### 绪论
 
-### 研究背景
-
-### 我做了什么
-
-### 有什么意义
-
-### 怎么做的
-
-This is an R Markdown presentation [@bookdown2016CRC]. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+- 文献综述分三段
+  - 引出估计SGLMM模型参数的问题，实现其参数估计的算法的研究现状
+  - SGLMM模型的应用现状
+  - 估计SGLMM模型参数在实践中遇到的瓶颈
+- 论文结构
+  - 论文后续章节的组织
+  - 陈述自己的创新点或补充文献中的内容
 
 
-### 模型假设
+### 空间广义线性混合效应模型是什么？
 
-**Multiple prevalence surveys** 
+空间广义线性混合效应模型
 
-Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
-$$Y_{i}\sim \mathrm{Bin}(n_{i},p_{i})$$
-**Extra-binomial variation**
+\begin{equation}
+g(\mu_i) = d(x_i)^{\top}\boldsymbol{\beta} + S(x_i) + Z_i 
+\end{equation}
 
-Sample $n_{i}$ individuals, observe $Y_{i}$ positives, $i = 1, 2, \cdots, m$
-$$Y_{i}|d_{i},U_{i}\sim \mathrm{Bin}(n_{i},p_{i}) \quad 
-\log[p_{i}/(1-p_{i})]=d_{i}'\beta+U_{i} \quad U_{i} \sim N(0,\tau^2)$$
+- 观测数据向量：$d^{\top}(x_i)$ 表示 $p$ 个协变量在第 $i$ 个位置 $x_i$ 的观察值。 
+- 回归参数向量：$\boldsymbol{\beta}$
+- 假定 $\mathcal{S} = \{S(x): x \in \mathbb{R}^2\}$ 是均值为0， 方差为 $\sigma^2$，平稳且各向同性的空间高斯过程， $\rho(x,x') = \mathsf{Corr}\{S(x),S(x')\} \equiv \rho(\|x,x'\|)$， $\|\cdot\|$ 表示距离。
+- 非空间随机效应：$Z_i \stackrel{i.i.d}{\sim} \mathcal{N}(0,\tau^2)$，$\tau^2=\mathsf{Var}(Y_{i}|S(x_{i})),\forall i = 1,2, \ldots, N$， $N$ 是采样点的数目
+- 联系函数：
 
-### notations: Spatial Generalized Linear Mixed Models (SGLMM)
+#### 与一般的广义线性混合混合效应模型区别在哪？
 
-1. Latent spatially correlated process 
-  - Stationary Gaussian Process: $S(x) \sim \mathrm{SGP}\{0,\sigma^2,\rho(u)\}$ 
-  - correlation function: e.g. $\rho(u)=\exp(-|u|/\phi)$ 
-2. Linear prediction (regression model)
-  - $d(x)=$ covariates at location $x$
-  - Linear prediction: $\eta(x)=d(x)'\beta + S(x)$ 
-  - Link function: logit $p(x)=\log\{\eta(x)/[1-\eta(x)]\}$ 
-3. Conditional distribution for positive proportion $Y_{i}/n_{i}$
-  - $Y_{i}|S(\cdot) \sim \mathrm{Bin}(n_{i},p(x_{i}))$ (binomial sampling)
+$S(x_i)$ 是与空间位置 $x_i$ 相关的随机效应。
 
-### 模拟实验
+### 空间效应 $S(x_i)$ 给参数估计带来的困难在哪？
 
-```{r simulation,fig.cap='精确方法与近似方法比较', out.width = '.6\\textwidth' }
-knitr::include_graphics(path = 'figures/simulation.pdf')
+\begin{equation}
+g(\mu_i) = d(x_i)^{\top}\boldsymbol{\beta} + S(x_i) + Z_i 
+\end{equation}
+
+#### 随机效应的协方差矩阵结构复杂，卷入的参数有 $\sigma^2,\tau^2,\phi,\kappa$
+
+$$\mathsf{Cov}(T_{i}(x),T_{i}(x)) = \sigma^2+\tau^2, \mathsf{Cov}(T_{i}(x),T_{j}(x))=\sigma^2\rho(u_{ij})$$
+
+\begin{equation}
+\rho(u)=\{2^{\kappa -1}\Gamma(\kappa)\}^{-1}(u/\phi)^{\kappa}\mathcal{K}_{\kappa}(u/\phi),u > 0
+\end{equation}
+
+$\mathcal{K}_{\kappa}(u)$ 是修正的第二类贝塞尔函数
+\begin{equation}
+\begin{aligned}
+I_{-\kappa}(u) & =  \sum_{m=0}^{\infty} \frac{1}{m!\Gamma(m + \kappa + 1)} \big(\frac{u}{2}\big)^{2m + \kappa} \\
+\mathcal{K}_{\kappa}(u) & = \frac{\pi}{2} \frac{I_{-\kappa}(u) - I_{\kappa}(u)}{\sin (\kappa \pi)}
+\end{aligned}
+\end{equation}
+
+
+### 估计SGLMM模型参数的困难
+
+设研究区域 $D \subseteq \mathbb{R}^2$， 对于第 $i$ 次观测， $s_i$ 表示区域 $D$ 内的位置，$y(s_i)$ 表示响应变量，$\mathbf{x}(s_i), i = 1, \ldots, n$ 是一个 $p$ 维的固定效应，定义如下的 SGLMM 模型：
+
+\[ \mathrm{E}[y(s_i)|u(s_i)] = g^{-1}[\mathbf{x}(s_i)^{\top}\boldsymbol{\beta} + \mathbf{u}(s_i)], \quad i = 1, \ldots, n \]
+
+其中 $g(\cdot)$ 是实值可微的逆联系函数， $\boldsymbol{\beta}$ 是 $p$ 维的回归参数向量，代表 SGLMM 模型的固定效应。随机过程 $\{U(\mathbf{s}): \mathbf{s} \in D\}$ 是平稳的空间高斯过程，其均值为 $\mathbf{0}$， 自协方差函数 $\mathsf{Cov}(U(\mathbf{s}),U(\mathbf{s}')) = C(\mathbf{s} - \mathbf{s}'; \boldsymbol{\theta})$， $\boldsymbol{\theta}$ 是其中的参数向量。 $\mathbf{u} = (u(s_1),u(s_2),\ldots,u(s_n))^{\top}$ 是平稳空间高斯过程 $U(\cdot)$ 的一个实例。给定 $\mathbf{u}$的情况下，观察值 $\mathbf{y} = (y(s_1),y(s_2),\ldots,y(s_n))^{\top}$ 是相互独立的。
+
+### 边际似然函数含有空间随机效应带来的高维积分
+
+给定 $u_i = u(s_i), i = 1, \ldots, n$的条件下， $y_i = y(s_i)$ 的条件概率密度函数是 $$f(y_i|u_i;\boldsymbol{\beta}) = \exp[a(\mu_i)y_i - b(\mu_i)]c(y_i)$$ 其中 $\mu_i = \mathsf{E}(y_i|u_i)$， $a(\cdot),b(\cdot)$ 和 $c(\cdot)$ 是特定的函数。 SGLMM 模型的边际似然函数
+
+\begin{equation}
+L(\boldsymbol{\psi};\mathbf{y}) = \int \prod_{i=1}^{n} f(y_i|u_i;\boldsymbol{\beta})\phi_{n}(\mathbf{u};0,\Sigma_{\boldsymbol{\theta}})\mathrm{d}\mathbf{u}
+\end{equation}
+
+记号 $\boldsymbol{\psi} = (\boldsymbol{\beta},\boldsymbol{\theta})$ 表示 SGLMM 模型的全部参数， $\phi_{n}(\cdot;0,\Sigma_{\boldsymbol{\theta}})$ 表示 $n$ 元正态密度函数，其均值为 $\mathbf{0}$， 协方差矩阵为 $\Sigma_{\boldsymbol{\theta}} = (c_{ij}) = (C(s_i - s_j; \boldsymbol{\theta})), i,j = 1, \ldots, n$。 
+
+#### 困难
+
+边际似然函数几乎总是卷入一个难以处理的积分，积分的维数等于观测点的个数。
+
+
+### 估计 SGLMM 模型参数的算法主要有哪些？
+
+- 基于似然函数的估计算法
+  - 拉普拉斯近似算法 [@Bonat2016Practical]
+  - 蒙特卡罗极大似然算法 [@Diggle2016]
+- 基于马尔科夫链蒙特卡罗的估计算法
+  - R 实现的 Langevin-Hastings 算法 [@PrevMap2017JSS]
+  - 新提出：Stan 实现的汉密尔顿蒙特卡罗算法（简称Stan-HMC）
+
+### 创新点在哪？怎么做的？效果怎么样？
+
+1. 借助 Stan 实现汉密尔顿蒙特卡罗算法（简称 HMC）去估计 SGLMM 模型的参数，在响应变量服从二项分布和泊松分布的两组模拟实验中，与基于 R 包 geoRglm 实现的 Langevin-Hastings 算法相比，发现 HMC 算法在保持相似结果下能大大减少迭代次数，还不需要对算法进行调参；
+2. 在真实数据分析中研究了基于似然函数的参数估计算法，发现这类算法容易陷入局部极值，因此，在小麦数据的分析中借助样本变差图选择初值，在核污染数据的分析中利用剖面似然轮廓来确定合适的初值。
+
+### 模拟实验 I: 模拟平稳空间高斯过程 $S(x)$
+
+自协方差函数：
+\begin{align}
+\mathsf{Cov}(S(x_i), S(x_j)) & = \sigma^2 \exp\big\{ -\big( \frac{ |x_{i} - x_{j}| }{ \phi } \big) ^ {\kappa} \big\}, 0 < \kappa \leq 2
+\end{align}
+```{r one-dim-gp,fig.cap='模拟平稳空间高斯过程 $S(x)$',fig.subcap=c("平稳空间高斯过程 $S(x)$ 的协方差函数是指数型，均值向量为 $\\mathbf{0}$，协方差参数 $\\sigma^2 = 1$，$\\phi = 0.15$，$\\kappa=1$","平稳空间高斯过程 $S(x)$ 的协方差函数是幂二次指数型，均值向量为 $\\mathbf{0}$，协方差参数 $\\sigma^2 = 1$，$\\phi = 0.15$，$\\kappa=2$"),out.width="40%"}
+knitr::include_graphics(path = c(
+  "figures/one-dim-gp-exp.png",
+  "figures/one-dim-gp-exp-quad.png"
+))
 ```
 
-### 还能怎么做
+### 模拟实验 II: 模拟 SGLMM 模型（二项型）
 
-```{r pressure}
-plot(pressure)
+\begin{equation}
+g(\mu_i) = \log\big\{\frac{p(x_i)}{1-p(x_i)}\big\} = \alpha + S(x_i) \label{eq:binom-SGLMM}
+\end{equation}
+
+- 固定效应参数 $\alpha = 0$，
+- 协方差参数 $\boldsymbol{\theta} = (\sigma^2, \phi) = (0.5, 0.2)$，
+- 采样点数目 $N = 36,64,81$，每个采样点抽取的样本数为4，
+
+模拟分两步走：
+
+- 第一步：模拟平稳空间高斯过程 $S(x)$，在单位区域 $[0,1] \times [0,1]$ 划分为 $8 \times 8$ 的网格，格点选为采样位置，用 geoR 包提供的 `grf` 函数产生协方差参数为 $\boldsymbol{\theta} = (\sigma^2,\phi) = (0.5, 0.2)$ 的平稳空间高斯过程
+- 第二步：根据 $p(x_i) = \exp[\alpha + S(x_i)]/\{1 + \exp[\alpha + S(x_i)]\}$， 获得每个格点处二项分布的概率值，由 `rbinom` 函数产生服从二项分布的观察值 $Y_i$
+
+### 模拟实验 II: 模拟 SGLMM 模型（二项型）续
+
+```{r binom-without-nugget-geoRglm,fig.cap="左图表示二维规则平面上的平稳空间高斯过程，格点是采样点的位置，其上的数字是 $p(x)$ 的值，已经四舍五入保留两位小数，右图表示观察值 $Y$ 随空间位置的变化，格点上的值即为观察值 $Y$，图中的两个圈分别是第1个(左下)和第29个(右上)采样点",out.width="90%"}
+knitr::include_graphics(path = "figures/binom-without-nugget-geoRglm.png")
 ```
 
-# Section title     
-## Subsection title 
-
-### Spatial data in R
-
-- 动态文档 [@xie2015Dynamic;@bookdown2016CRC] 和 [@blogdown2017CRC]
-- 统计图形 [@ggplot2016Springer]
-- 空间统计 [@Venables2002Modern] 和 [@Bivand2013Applied]
-
-*Edzer Pebesma* : useR! international R User conference
-
-1. [Spatial data in R: simple features and future perspectives (2016)](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Spatial-data-in-R-simple-features-and-future-perspectives) 
-2. [Spatial data in R: new directions (2017)](https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Spatial-data-in-R-new-directions)
-3. [Spatial data in R: new directions II (2017)](https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Spatial-data-in-R-new-directions-II) 
-
-- UseR! tutorial <https://edzer.github.io/UseR2017/>
-
-### \LaTeX
-
-\begin{exampleblock}{Binomial Theorem}
-\begin{equation} 
-  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
-  \label{eq:binom}
-\end{equation} 
-\end{exampleblock}
-
-Hello Equation \ref{eq:binom}
-
-#### Title for block box
-
-**Unordered List**
-
-- [University of Illinois at Urbana-Champaign (UIUC)](http://illinois.edu)
-- [Department of Statistics](http://www.stat.illinois.edu/)
-- [Illinois Informatics Institute](http://www.informatics.illinois.edu/) 
-
-
-### Redux \LaTeX 
-
-This theme supports special LaTeX macros `\beingcols` and `\endcols` that allows
-for markdown to be blended with LaTeX without triggering the [`raw_tex`](http://pandoc.org/MANUAL.html#raw-tex) 
-extension. To enable this feature, the `safe-columns` key in the YML head matter
-must be set equal to `true`.
-
-\begincols
-
-\column{.49\linewidth}
-
-- _Hello!_
-
-\column{.49\linewidth}
-
-1. **Goodbye!**
-
-\endcols
-
-## Code Example
-
-### Code Embedding
+### 模拟实验 II: 模拟 SGLMM 模型（二项型）续：Langevin-Hastings 算法与 HMC 算法比较
 
 ```{r}
-# Embedding code
-x = 2
-y = 3
-
-x + y
+knitr::include_graphics(path = "figures/binom-tab.pdf")
 ```
 
-Inline R code refering to variable in previous code chunk:
 
-`r x`
+### 模拟实验 II: 模拟 SGLMM 模型（泊松型）
+
+\begin{equation}
+g(\mu_i) = \log[\lambda(x_i)] = \alpha + S(x_i) \label{eq:pois-SGLMM}
+\end{equation}
+
+- 模型参数真值为 $\alpha = 0.5, \phi = 0.2, \sigma^2 = 2.0, \kappa = 1.5$，
+- 采样点数目分别为 $N=36,64,100$
+
+模拟分两步走：
+
+- 第一步：首先产生服从平稳空间高斯过程 $S(x)$ 的随机数 $S(x_i),i=1,\ldots,N$，
+- 第二步：因为 $\lambda(x_i) = \exp(\alpha + S(x_i))$，且响应变量 $Y_i \sim \mathrm{Poisson}(\lambda(x_{i}))$，根据 R 内置函数 `rpois` 即可产生服从参数为 $\lambda(x_i)$ 的泊松分布的随机数。
+
+### 模拟实验 II: 模拟 SGLMM 模型（泊松型）续：Langevin-Hastings 算法与 HMC 算法比较
+
+```{r}
+knitr::include_graphics(path = "figures/pois-tab.pdf")
+```
+
+### 数据分析：以核污染数据分析为例
+
+Table: 拉普拉斯近似算法（简记LAL）和蒙特卡罗极大似然算法（简记MCL）估计泊松型SGLMM模型的参数
+
+| 算法     | $\hat{\beta}(\beta_{0})$ | $\hat{\sigma}^{2}(\sigma^2_0)$ | $\hat{\phi}(\phi_0)$  | $\hat{\tau}^2_{rel}(\tau^2_{rel_0})$ |  $\log L_{m}$          |
+| :------:| :-------------|:-------------|:-------------|:-------------|:-------------|
+|    LAL   | 1.821(2.014)  | 0.264(0.231)    |   151.795(50)|   0.133(0.1)    | $-1317.195$   |
+|    MCL   | 1.821(2.014)  | 0.265(0.231)    |   151.859(50)|   0.132(0.1)    | $-8.8903$      |
+|    MCL   | 6.190(6.200)  | 2.401(2.400)    |   338.126(340)|   2.053(2.074) | $-5.8458$ |
+
+以第4行为例，块金效应的估计值应为 $\hat{\tau}^2 = \hat{\sigma}^{2} \times \hat{\tau}^2_{rel} = 4.929$
+
+### 数据分析：以核污染数据分析为例（续）
+
+```{r profile-phi-tausq,fig.cap='泊松型 SGLMM 模型关于 $\\phi$ 和相对块金效应 $\\tau^2_{rel} = \\tau^2 / \\sigma^2$ 的剖面似然函数轮廓',out.width="55%"}
+knitr::include_graphics(path = "figures/profile-phitausq.png")
+```
+
+
+### 致谢
+
+\center{\Huge{谢谢！}}
 
