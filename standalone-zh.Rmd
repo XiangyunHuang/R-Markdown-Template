@@ -8,7 +8,7 @@ output:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
-classoptions: "preview"
+classoption: "preview"
 ---
 
 ```{r setup, include=FALSE}
