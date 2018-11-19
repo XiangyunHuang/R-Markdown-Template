@@ -1,0 +1,15 @@
+---
+title: "R Markodwn 中文模版合集"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,out.width = "70%")
+```
+
+## 适合移动手机浏览 `mobile.Rmd` 
+
+```{r,out.width="30%"}
+knitr::include_graphics(path = c('figures/mobile-01.png','figures/mobile-02.png'))
+```
+
