@@ -5,7 +5,7 @@ output:
   pdf_document: 
     extra_dependencies:
       sourceserifpro: default
-      ctex: UTF8
+      ctex: UTF8,heading
     latex_engine: xelatex
     number_sections: yes
     toc: yes

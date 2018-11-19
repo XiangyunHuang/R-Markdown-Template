@@ -39,8 +39,6 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   theme_minimal(base_size = 10.54, base_family = "wqy-microhei")
 ```
 
-
-
 图形里的字体，以矿大学位论文的要求为例，
 
 1. 字体宋体，五号
@@ -77,7 +75,6 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   theme_minimal(base_size = 10.54, base_family = "source-han-serif-cn")
 ```
 
-
 - 自定义中文字体
 
 1. 标题：思源宋体加粗
@@ -113,8 +110,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
 
 ## 英文
 
-
-```{r pressure, echo=TRUE, fig.cap="全英文字体"}
+```{r pressure, echo=TRUE, fig.cap="西文衬线字体"}
 op <- par(family = "serif", mar = c(4,4,.5,.5))
 plot(pressure)
 par(op)

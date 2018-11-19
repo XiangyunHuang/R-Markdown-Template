@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "支持 TikZ 设备"
 documentclass: article
 output: 
   pdf_document: 
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 options(tikzDefaultEngine = 'xetex')
 ```
 
-# tikze
+# TikZ
 
 ```{r,dev='tikz'}
 x <- rnorm(10)
@@ -24,7 +24,7 @@ y <- x + rnorm(5, sd = 0.25)
 model <- lm(y ~ x)
 rsq <- summary(model)$r.squared
 rsq <- signif(rsq, 4)
-plot(x, y, main = "Hello \\LaTeX!", xlab = "$x$",ylab = "$y$")
+plot(x, y, main = "Hello \\LaTeX!", xlab = "$x$", ylab = "$y$")
 abline(model, col = "red")
 mtext(paste("Linear model: $R^{2}=", rsq, "$"), line = 0.5)
 legend("bottomright", legend = paste("$y = ", round(coef(model)[2], 3),
