@@ -1,0 +1,73 @@
+\documentclass[aspectratio=43,compress]{beamer}
+\usetheme{Frankfurt}
+\usecolortheme{seahorse}
+\usepackage{CJKutf8}
+
+\title[Spatial Generalized Linear Mixed Models]{Spatial Generalized Linear Mixed Models with Application to Prevalence Mapping}
+\subtitle{空间广义线性混合模型及其在预测流行病中的应用\\ 2015级硕士学位论文答辩}
+\author[黄湘云 \and 李再兴]{学生：黄湘云 \and 导师：李再兴}
+
+\institute[中国矿业大学（北京）] 
+{
+  % \inst{1}%
+  专业：统计学\quad 方向：数据分析与统计计算 %\\
+  % 理学院\quad 中国矿业大学（北京）
+}
+
+\date[\today] % (optional)
+{\includegraphics[width=38ex,interpolate=true]{cumtb.pdf} \\ ~~\\
+\today / 逸夫楼}
+
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}
+
+\maketitle
+
+% \begin{frame}{Outline}
+% \tableofcontents
+% \end{frame}
+
+\begin{frame}
+
+\textbf{Outline 目录}
+\begin{enumerate}
+  \item Introduction (Motivations and goals)
+  \item Literature reviews  
+  \item Geostatistical model (SGLMM)
+  \item Computing details and simulations
+  \item Real data analysis (Applications)
+  \item Discussion
+\end{enumerate}
+这是一个CJKutf8的例子，使用的字体是gbsn
+\end{frame}
+
+\begin{frame}
+
+{\color{red} \textbf{Multiple prevalence surveys}} \\
+Sample $n_{i}$ individuals,observe $Y_{i}$ positives,$i=1,2,\cdots,m$
+$$Y_{i}\sim \mathrm{Bin}(n_{i},p_{i})$$
+
+{\color{red} \textbf{Extra-binomial variation}} \\
+Sample $n_{i}$ individuals,observe $Y_{i}$ positives,$i=1,2,\cdots,m$
+$$Y_{i}|d_{i},U_{i}\sim \mathrm{Bin}(n_{i},p_{i}) \quad 
+\log\{p_{i}/(1-p_{i})\}=d_{i}'\beta+U_{i} \quad U_{i} \sim N(0,\tau^2)$$
+
+\textbf{notations:} Spatial Generalized Linear Mixed Models (SGLMM)
+\begin{itemize}
+\item Latent spatially correlated process \\
+Stationary Gaussian Process: $S(x) \sim \mathrm{SGP}\{0,\sigma^2,\rho(u)\} $ \\
+correlation function: e.g. $\rho(u)=\exp(-|u|/\phi)$ 
+\item Linear prediction (regression model)\\
+$d(x)=$ covariates at location $x$\\
+Linear prediction: $\eta(x)=d(x)'\beta + S(x)$ \\
+Link function: logit $p(x)=\log\{\eta(x)/[1-\eta(x)]\}$ 
+\item Conditional distribution for positive proportion $Y_{i}/n_{i}$\\
+$Y_{i}|S(\cdot) \sim \mathrm{Bin}(n_{i},p(x_{i}))$ (binomial sampling)
+\end{itemize}
+
+\end{frame}
+
+
+\end{CJK}
+\end{document}

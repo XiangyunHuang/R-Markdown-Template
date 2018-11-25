@@ -1,0 +1,49 @@
+---
+title: "空间广义线性混合效应模型及其应用"
+subtitle: "Spatial Generalized Linear Mixed Models (SGLMM) with Its Applications"
+author:
+  - Xiang-Yun Huang 
+institute: 
+  - Department of Statistics 
+  - School of Science
+titlegraphic: cumtb.pdf
+date: "2018年"
+output: 
+  beamer_presentation: 
+    colortheme: seahorse
+    fonttheme: structurebold
+    latex_engine: pdflatex
+    slide_level: 2
+    template: default.latex
+    theme: Frankfurt
+section-titles: yes
+toc: yes
+toc-title: 目录
+classoption: "compress,UTF8"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Introduction
+
+## Motivations 介绍
+
+1. Radionuclide concentrations on Rongelap Island
+2. Childhood malaria in the gambia
+3. Loa loa prevalence in Cameroon and surrounding areas
+
+
+
+
+## Outline
+
+1. Introduction (Motivations and goals)
+1. Literature reviews  
+1. Geostatistical model (SGLMM)
+1. Computing details and simulations
+1. Real data analysis (Applications)
+1. Discussion
+
+
