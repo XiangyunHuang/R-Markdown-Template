@@ -1,0 +1,156 @@
+---
+title: "空间广义线性混合效应模型及其应用"
+subtitle: "Spatial Generalized Linear Mixed Models with Its Applications"
+short-title: "空间广义线性混合效应模型"
+author: "导师：李再兴 \\and 学生：黄湘云"
+short-author: "李再兴 \\and 黄湘云"
+date: '2015级硕士学位论文答辩'      # Month DD, YYYY (Main Slide)
+short-date: '`r format(Sys.Date(), "%m/%d/%Y")`' # MM/DD/YYYY (Lower Right)
+institute: "中国矿业大学（北京）理学院"
+short-institute: "CUMTB"
+department: "计算数学与统计系"                # Institute must be defined
+#license: "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
+section-titles: false                            # Provides slide headings
+safe-columns: true                               # Enables special latex macros for columns.
+output: 
+   uiucthemes::beamer_illinois:
+     latex_engine: xelatex
+     citation_package: natbib
+     toc: no
+header-includes: 
+  - \usepackage[fontset = fandol]{ctex}
+  - \usepackage{sourceserifpro}
+  - \usepackage[default]{sourcesanspro}
+  - \usepackage[scale=0.8]{sourcecodepro}
+bibliography: refer.bib
+biblio-style: apalike
+biblio-title: 参考文献
+link-citations: yes
+colorlinks: yes
+---
+
+```{r setup, include=FALSE}
+options(digits = 3)
+knitr::opts_chunk$set(
+  comment = "#>",
+  echo = FALSE,
+  collapse = TRUE,
+  fig.align = 'center',
+  fig.asp = 0.618,  # 1 / phi
+  fig.show = "hold",
+  out.width = '.6\\textwidth'
+)
+```
+
+### 研究背景
+
+计算方法：
+
+- MCMC: Peter J. @Diggle1998 from Lancaster University
+- MCML: Charles J. @Geyer1994On and Hao @Zhang2002On from Purdue University
+- INLA: H\aa vard @INLA2009 from Columbia University
+- FRK: Noel A. C. @FRK2008Cressie from University of Wollongong
+
+软件：
+
+- Andrew Gelman (BUGS^[**B**ayesian inference **U**sing **G**ibbs **S**ampling, WinBUGS/OpenBUGS/JAGS ]) from Columbia University
+- Bob @Stan2017JSS (**Stan**)  from Columbia University
+- Robert Gentleman and Ross Ihaka (R) from University of Auckland
+
+
+
+### 我做了什么
+
+- 综述和实现了空间广义线性混合效应模型的三类参数估计方法，分别是低秩近似、蒙特卡罗最大似然和近似贝叶斯 （创新）
+- 在同一模拟数据集上，比较了三类算法的优劣 （创新）
+- 在同样的准确度下，基于新的计算框架 Stan 实现了贝叶斯马尔科夫链蒙特卡罗算法 （创新）
+- 指出三类算法实现的关键技巧和使用场景 （创新）
+
+### 有什么意义
+
+
+- 指导算法的选择和应用：
+  1.  空间流行疾病预测（如冈比亚和喀麦隆）
+
+
+### 模型
+
+#### 高斯空间过程 
+$\mathcal{S} = \{S(w),w\in\mathbb{R}^2\}$ 是一个随机过程，满足：
+
+任意给定一组位置 $w_1,w_2,\ldots,w_n,w_{i} \in \mathbb{R}^2$， 对应的联合分布 $\mathcal{S}=\{S(w_1),S(w_2),\ldots,S(w_n)\}$ 是多元高斯分布，由均值 $\mathrm{E}[S(w)]$ 和协方差 $\mathrm{Cov}\{S(w_i),S(w_j)\}$ 完全确定
+
+#### 空间广义线性混合效应模型
+
+\begin{equation}
+\begin{aligned}
+g(\mu) &= d(x)'\beta + S(x) \\
+\mu &= E[Y|S(X)] \\
+Y &\sim \text{指数族}
+\end{aligned}
+\end{equation}
+$S(x)$ 是平稳高斯过程，$d(x)$ 样本点的观测变量，详见论文公式2.4
+
+### 数值模拟：响应变量$Y$服从正态分布
+
+\begin{equation}
+Y = \beta_{0} + \beta_{1}*X_{1} + \beta_{2}*X_{2} + S(w) + \epsilon
+\end{equation}
+
+- 响应变量$Y$服从正态分布，样本量为 $N=50$，$\beta_0 = 1.2,\beta_1 = 1, \beta_{2} = 0.8 , X_1 \sim N(0,1), X_2 \sim N(0,4)$， 残差 $\epsilon \sim N(0,\tau^2),\tau = 1$
+- $S(w)$ 服从 $N$ 元高斯分布 $N(\mu_{S},G)$，$w = (d_1,d_2) \in \mathbb{R}^2$ ，$d_1 \sim N(0,1), d_2 \sim N(0,1), \mu_{S} = \mathbf{0}_{N\times1}$， $G_{(ij)} = \mathrm{Cov}(S(w_i),S(w_j))=\sigma^2*\rho(u_{ij})$ 
+<!-- 由采样点 $(x_1,x_2)$ 和相关函数 $\rho(u)$ 决定，$S(w)$ 的维度是采样点的数目 -->
+- $S(w)$ 的相关函数 $\rho(u_{ij}) = \exp(-u_{ij}/\phi), u_{ij} \equiv \|w_{i}-w_{j}\|_2$，$\sigma^2 =1 ,\phi =25$
+
+- 困难：$\dim\{S(w)\} = \text{样本量} N$，意味着空间随机效应自带高维特点
+- 目标：估计参数$\beta_0,\beta_1,\beta_2,\sigma^2,\tau^2,\phi$
+
+### 模拟结果
+
+Table: 正态分布情形下的数值模拟比较
+
+|     估计   | $\hat{\beta_{0}}$ | $\hat{\beta_{1}}$ | $\hat{\beta_{2}}$ | $\hat{\phi}$ | $\hat{\sigma^2}$ | $\hat{\tau^2}$ | CPU (s) |
+| :-----------: | :------: | :------: | :------: | :------: | :------: |  :------: | :---------: |
+| 真实值  |   1.20   |  1.00   |  0.80   |    25.00    |  1.00   |  1.00  |    -    |
+|  Stan   |   2.75   |  1.17   |  0.74   |    29.58    |  0.36   |  0.69  | 117.17  |
+| ML/REML |   2.75   |  1.18   |  0.74   |    10.13    |  0.97   |  0.00  |  3.68   |
+
+
+### 模拟实验 I
+
+```{r,fig.cap='精确方法MCML与近似方法Low-Rank比较'}
+knitr::include_graphics(path = 'figures/simulations/MCML-LowRank.pdf')
+```
+
+### 模拟实验 II
+
+```{r,fig.cap='ML/REML方法',out.width="80%"}
+knitr::include_graphics(path = 'figures/simulations/REML.pdf')
+```
+
+### 模拟实验 III
+
+Table: 正态分布情形下的数值模拟比较
+
+|      估计      | $\hat{\beta_{0}}$ | $\hat{\beta_{1}}$ | $\hat{\beta_{2}}$ | $\hat{\phi}$ | $\hat{\sigma^2}$ | $\hat{\tau^2}$ | CPU (s) |
+| :----------------: | :----------------: | :----------------: | :----------------: | :-----------: | :---------------: | :-------------: | :----------------: |
+| 真实值  | 1.200 | 1.000 | 0.800 | 25.000 | 1.000 | 1.000 | -       |
+| RSA     | 1.977 | 1.016 | 0.803 | 21.937 | 0.857 | 0.960 | 298.250 |
+| ML/PQL  | 1.966 | 1.007 | 0.796 | 28.172 | 1.365 | 0.516 | 464.420 |
+| ML/REML | 1.958 | 1.007 | 0.796 | 38.114 | 1.159 | 0.970 | 634.720 |
+| ML/LR   | 1.935 | 1.008 | 0.796 | 44.317 | 3.916 | 0.264 | 326.780 |
+
+RSA 不仅计算效率高，而且也比较准确，PQL在空间效应的参数估计中效果不及REML，LR牺牲一些计算精度可以大大缩短运行时间。
+
+### 案例 I
+
+```{r,fig.cap='ML/REML方法',out.width="80%"}
+knitr::include_graphics(path = 'figures/cases/spaMM-gambia.pdf')
+```
+
+
+### 案例 II
+
+```{r,fig.cap='ML/REML方法',out.width="80%"}
+knitr::include_graphics(path = 'figures/cases/spaMM-loaloa.pdf')
+```
