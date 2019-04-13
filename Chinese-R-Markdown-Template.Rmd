@@ -1,33 +1,46 @@
 ---
-title: "图形高级定制"
+title: "中文 R Markdown 文档"
+author: "黄湘云"
+date: "`r Sys.Date()`"
 output: 
   pdf_document: 
     extra_dependencies:
-      ctex: UTF8  
+      ctex: UTF8
+      sourcecodepro: scale = 0.85
+      sourceserifpro: default
+    fig_caption: yes
     latex_engine: xelatex
     number_sections: yes
-    toc: yes
+classoptions: "preview"    
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
-  echo = FALSE,
-  # cache = TRUE,
+  echo = TRUE,
+  cache = FALSE,
   out.width = "70%",
-  fig.align = 'center',
+  fig.align = "center",
   fig.width = 6,
-  fig.asp = 0.618,  # 1 / phi
-  fig.show = "hold"
+  fig.asp = 0.618, # 1 / phi
+  fig.show = "hold",
+  fig.showtext = TRUE
 )
+lapply(c("ggplot2", "showtext", "tikzDevice"), function(pkg) {
+  if (system.file(package = pkg) == "") install.packages(pkg)
+})
+# library(showtext)
+# Install Source Han Sans font (by default Simplified Chinese)
+# showtext::font_install(source_han_serif("CN")) # 思源宋体
+# showtext::font_install(source_han_sans("CN"))  # 思源黑体
 ```
 
 # 字体
 
 ## 中文
 
-```{r, fig.showtext=TRUE}
+```{r}
 library(ggplot2)
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   geom_point(aes(colour = Species)) +
@@ -45,8 +58,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
 2. 数字、字母字体都是 Times New Roman
 3. 5 号字体对应 10.54pt，宋体此处采用思源宋体
 
-```{r, fig.showtext=TRUE}
-library(ggplot2)
+```{r}
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   geom_point(aes(colour = Species)) +
   scale_colour_brewer(palette = "Set1") +
@@ -58,13 +70,12 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   theme(
     legend.text = element_text(family = "serif", size = 10.54),
     axis.text = element_text(family = "serif", size = 10.54)
-    )
+  )
 ```
 
-- 简单起见，字体为思源宋体，字号5号，英文和数字随思源宋体，不再另外设置，其实看不出来差别
+简单起见，字体为思源宋体，字号5号，英文和数字随思源宋体，不再另外设置，其实看不出来差别
 
-```{r fig.showtext=TRUE}
-library(ggplot2)
+```{r}
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   geom_point(aes(colour = Species)) +
   scale_colour_brewer(palette = "Set1") +
@@ -75,17 +86,13 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   theme_minimal(base_size = 10.54, base_family = "source-han-serif-cn")
 ```
 
-- 自定义中文字体
+自定义中文字体
 
 1. 标题：思源宋体加粗
 2. 坐标轴标签：思源宋体
 3. 图例：思源黑体
 
-```{r, fig.showtext=TRUE, echo=TRUE}
-# library(showtext)
-# Install Source Han Sans font (by default Simplified Chinese)
-# font_install(source_han_serif("CN")) # 思源宋体
-# font_install(source_han_sans("CN"))  # 思源黑体
+```{r}
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
   geom_point(aes(colour = Species)) +
   scale_colour_brewer(palette = "Set1") +
@@ -99,7 +106,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
     legend.title = element_text(family = "source-han-serif-cn", face = "plain", size = 10.54),
     axis.ticks = element_line(colour = "black"),
     legend.text = element_text(family = "serif", size = 10.54),
-    axis.text = element_text(family = "serif", size = 10.54),    
+    axis.text = element_text(family = "serif", size = 10.54),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     panel.background = element_blank(),
@@ -110,14 +117,14 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
 
 ## 英文
 
-```{r pressure, echo=TRUE, fig.cap="西文衬线字体"}
-op <- par(family = "serif", mar = c(4,4,.5,.5))
+```{r fig.cap="西文衬线字体"}
+op <- par(family = "serif", mar = c(4, 4, .5, .5))
 plot(pressure)
 par(op)
 ```
 
 
-```{r fig.showtext=TRUE,dev='pdf',eval=FALSE}
+```{r eval=FALSE}
 library(showtext)
 showtext_auto()
 cairo_pdf(file = "demo_times.pdf", width = 8, height = 7, pointsize = 16)
@@ -131,9 +138,9 @@ dev.off()
 ```
 
 
-```{r, fig.cap="Times New Roman字体"}
+```{r fig.cap="Times New Roman字体"}
 op <- par(mar = c(4, 4, .5, .5))
-plot(pressure, xlab = "", ylab = "", family = "Times") # Times
+plot(pressure, xlab = "", ylab = "", family = "serif") # Times
 par(op)
 ```
 
@@ -143,11 +150,5 @@ pdf 设备可用字体
 names(pdfFonts())
 ```
 
-## 艺术字体
-
-# 公式
-
 - https://github.com/wch/fontcm
-- tikzDevice
-- 默认 serif
 - https://github.com/wch/extrafont

@@ -13,40 +13,10 @@ knitr::opts_chunk$set(echo = FALSE,out.width = "85%")
 knitr::include_graphics(path = c('figures/mobile-01.png','figures/mobile-02.png'))
 ```
 
-## 自定义 R 绘图 `article-zh.Rmd`
-
-```{r,out.width="40%"}
-knitr::include_graphics(path = c('figures/article-zh-01.png','figures/article-zh-02.png'))
-```
-
-## 使用 `bookdown::pdf_document2` 制作中文模版 `article4report.Rmd`
-
-```{r,out.width="40%"}
-knitr::include_graphics(path = c('figures/article4report-01.png','figures/article4report-02.png'))
-```
-
-## 使用 `report` 文类制作中文模版 `report-zh.Rmd`
-
-```{r,out.width="40%"}
-knitr::include_graphics(path = c('figures/report-zh-01.png','figures/report-zh-02.png'))
-```
-
 ## 使用 `rticles::ctex` 的中文模版 `rticles.Rmd`
 
 ```{r,out.width="40%"}
 knitr::include_graphics(path = c('figures/rticles-01.png','figures/rticles-02.png'))
-```
-
-## 支持 TikZ 的中文模版 `TikZ.Rmd`
-
-```{r,out.width="40%"}
-knitr::include_graphics(path = c('figures/TikZ-01.png','figures/TikZ-02.png'))
-```
-
-## 自定义全文字体模版 `template.Rmd`
-
-```{r,out.width="40%"}
-knitr::include_graphics(path = c('figures/template-01.png','figures/template-02.png'))
 ```
 
 ## 双栏排版中文模版 `twocol-zh.Rmd`
