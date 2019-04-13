@@ -1,7 +1,13 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$if(beamer)$,$if(handout)$handout,$endif$$if(aspectratio)$aspectratio=$aspectratio$,$endif$$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
 %\usepackage{CJKutf8}
-\usepackage{ctex}
+% \usepackage{ctex}
+%\usepackage[nofonts]{ctex}
+\usepackage{xeCJK}
+\setCJKmainfont[BoldFont=SimHei, ItalicFont=KaiTi]{SimSun}
+\setCJKsansfont[BoldFont=SimHei]{KaiTi}
+\setCJKmonofont{FangSong}
+
 \usepackage{amssymb,amsmath}
 
 $if(beamer)$

@@ -11,7 +11,7 @@ date: "2018年"
 output: 
   beamer_presentation: 
     colortheme: seahorse
-    fonttheme: structurebold
+    #fonttheme: structurebold
     latex_engine: xelatex
     slide_level: 2
     template: default.latex
@@ -33,8 +33,6 @@ knitr::opts_chunk$set(echo = FALSE)
 1. Radionuclide concentrations on Rongelap Island
 2. Childhood malaria in the gambia
 3. Loa loa prevalence in Cameroon and surrounding areas
-
-
 
 
 ## Outline
