@@ -12,7 +12,7 @@ output:
   beamer_presentation: 
     colortheme: seahorse
     fonttheme: structurebold
-    latex_engine: pdflatex
+    latex_engine: xelatex
     slide_level: 2
     template: default.latex
     theme: Frankfurt
