@@ -80,7 +80,7 @@ plt.show()
 ## 软件信息 {.allowframebreaks}
 
 ```{r}
-devtools::session_info("rmarkdown")
+xfun::session_info("rmarkdown")
 ```
 
 
